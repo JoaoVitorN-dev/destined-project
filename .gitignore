@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Frontend specific
+front/destined-app/dist/
+front/destined-app/.nuxt/
+front/destined-app/.output/
+
+# Backend specific
+back/logs/
+back/*.log
+
+# MongoDB
+*.mongodb

@@ -1,0 +1,26 @@
+/* Global styles for the app, including the default background gradient */
+html, body, #app { height: 100%; margin: 0; }
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background-image: linear-gradient(to bottom, #140034, #01010D);
+  background-attachment: fixed;
+  background-size: cover;
+  color: #fff;
+  min-height: 100vh;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  
+}
+
+/* Optional helper: a page container that keeps consistent padding */
+.page-container {
+  padding: 16px;
+}
