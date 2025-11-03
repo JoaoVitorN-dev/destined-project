@@ -14,19 +14,20 @@ const users = ref<User[]>([]);
 const isLoading = ref(false);
 
 export const useLikeStore = () => {
-  const loadUsers = async () => {
-    if (users.value.length > 0) return; // Já carregado
+  const loadUsers = async (forceReload = false) => {
+    if (users.value.length > 0 && !forceReload) return; // Já carregado
     
     isLoading.value = true;
     try {
       const fetchedUsers = await api.getUsers();
+      console.log('Fetched users:', fetchedUsers); // Debug
       users.value = fetchedUsers.map((user: any, index: number) => ({
-        _id: user._id,
-        username: user.username,
-        age: 25 + (index % 10),
-        distance: `${(1 + (index % 3)).toFixed(1)} km away`,
+        ...user, // Passa todos os dados do usuário
+        age: user.age || 25 + (index % 10),
+        distance: user.distance || `${(1 + (index % 3)).toFixed(1)} km away`,
       }));
       currentUserIndex.value = 0;
+      console.log('Mapped users:', users.value); // Debug
     } catch (error) {
       console.error('Error loading users:', error);
       // Fallback para dados mock

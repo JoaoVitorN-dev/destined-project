@@ -7,10 +7,31 @@ import BackArrow from '@/components/shared/BackArrow.vue';
 import avatar from '../assets/profileDetails/avatar.svg'
 import router from '@/router';
 
-const preference = ref<string>('')
+const firstName = ref<string>('');
+const lastName = ref<string>('');
+const dateOfBirth = ref<string>('');
+const gender = ref<string>('');
+const preference = ref<string>('');
 
 function goToNextStep(){
-  router.push("/interests")
+  // Validar campos obrigatórios
+  if (!firstName.value || !lastName.value || !dateOfBirth.value || !gender.value || !preference.value) {
+    alert('Por favor, preencha todos os campos!');
+    return;
+  }
+
+  // Salvar dados no localStorage para usar na próxima página
+  const profileData = {
+    firstName: firstName.value,
+    lastName: lastName.value,
+    dateOfBirth: dateOfBirth.value,
+    gender: gender.value,
+    preference: preference.value,
+  };
+  
+  console.log('Saving profile data:', profileData); // Debug
+  localStorage.setItem('profile-data', JSON.stringify(profileData));
+  router.push("/interests");
 }
 </script>
 
@@ -28,17 +49,26 @@ function goToNextStep(){
         <div class="form-profile">
             <label>
                 First Name
-                <Input type="text" placeholder="First Name"/>
+                <Input type="text" placeholder="First Name" v-model="firstName"/>
             </label>
-            <Input type="text" placeholder="Last Name"/>
-            <Input type="date" placeholder="DOB"/>
-              <div class="input-gradient-wrap">
-                <select class="inner-input" v-model="preference" name="myBrowser">
-                  <option value="" disabled>Select your preference</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
+            <Input type="text" placeholder="Last Name" v-model="lastName"/>
+            <Input type="date" placeholder="DOB" v-model="dateOfBirth"/>
+            <div class="input-gradient-wrap">
+              <select class="inner-input" v-model="gender" name="gender">
+                <option value="" disabled>Select your gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="input-gradient-wrap">
+              <select class="inner-input" v-model="preference" name="preference">
+                <option value="" disabled>Select your preference</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Both">Both</option>
+              </select>
+            </div>
             <ContinueBtn @click="goToNextStep"/>
         </div>
     </div>

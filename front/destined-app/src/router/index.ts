@@ -7,6 +7,9 @@ import LikesPage from '@/pages/LikesPage.vue'
 import UsersPage from '@/pages/UsersPage.vue'
 import MatchPage from '@/pages/MatchPage.vue'
 import MatchesPage from '@/pages/MatchesPage.vue'
+import ChatsPage from '@/pages/ChatsPage.vue'
+import ChatPage from '@/pages/ChatPage.vue'
+import ProfilePage from '@/pages/ProfilePage.vue'
 
 const routes = [
   { path: '/', name: 'Initial Page', component: InitialPage },
@@ -17,6 +20,9 @@ const routes = [
   { path: '/users', name: 'Users Page', component: UsersPage },
   { path: '/match', name: 'Match Page', component: MatchPage },
   { path: '/matches', name: 'Matches Page', component: MatchesPage },
+  { path: '/chats', name: 'Chats Page', component: ChatsPage },
+  { path: '/chat/:userId', name: 'Chat Page', component: ChatPage },
+  { path: '/profile', name: 'Profile Page', component: ProfilePage },
 ]
 
 const router = createRouter({

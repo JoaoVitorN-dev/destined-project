@@ -3,22 +3,32 @@ import swipeIcon from '../../assets/icons/swipe.svg';
 import usersIcon from '../../assets/icons/users.svg';
 import chatsIcon from '../../assets/icons/chats.svg';
 import userIcon from '../../assets/icons/user.svg';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
 const router = useRouter();
-const activeTab = ref('swipe');
+const route = useRoute();
+
+const activeTab = computed(() => {
+  const path = route.path;
+  if (path === '/likes') return 'swipe';
+  if (path === '/users') return 'users';
+  if (path === '/chats' || path.startsWith('/chat/')) return 'chats';
+  if (path === '/profile' || path === '/profileDetails') return 'user';
+  return 'swipe';
+});
 
 const setActiveTab = (tab: string) => {
-  activeTab.value = tab;
-  
   // Navigate to corresponding page
-  if (tab === 'users') {
-    router.push('/users');
-  } else if (tab === 'swipe') {
+  if (tab === 'swipe') {
     router.push('/likes');
+  } else if (tab === 'users') {
+    router.push('/users');
+  } else if (tab === 'chats') {
+    router.push('/chats');
+  } else if (tab === 'user') {
+    router.push('/profile');
   }
-  // Add more navigation as needed
 };
 </script>
 
@@ -64,10 +74,11 @@ const setActiveTab = (tab: string) => {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: linear-gradient(180deg, rgba(14, 1, 36, 0.95) 0%, rgba(18, 1, 48, 0.98) 100%);
-  backdrop-filter: blur(10px);
-  padding: 16px 24px;
-  border-top: 1px solid rgba(131, 84, 255, 0.2);
+  background: linear-gradient(180deg, rgba(14, 1, 36, 0.98) 0%, rgba(8, 0, 24, 1) 100%);
+  backdrop-filter: blur(20px);
+  padding: 12px 24px 20px;
+  border-top: 2px solid rgba(131, 84, 255, 0.3);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
   z-index: 1000;
 }
 
@@ -75,47 +86,72 @@ const setActiveTab = (tab: string) => {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 12px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  padding: 14px 20px;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
 
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(131, 84, 255, 0.2), rgba(233, 30, 99, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tab-btn:hover::before {
+  opacity: 1;
+}
+
+.tab-btn.active::before {
+  opacity: 1;
+  background: linear-gradient(135deg, rgba(131, 84, 255, 0.3), rgba(233, 30, 99, 0.3));
+}
+
 .tab-btn:hover {
-  background: rgba(131, 84, 255, 0.1);
+  transform: translateY(-4px);
 }
 
 .tab-btn.active {
-  background: rgba(131, 84, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .tab-btn.active::after {
   content: '';
   position: absolute;
-  bottom: -16px;
+  bottom: -12px;
   left: 50%;
   transform: translateX(-50%);
-  width: 40px;
-  height: 3px;
-  background: linear-gradient(90deg, #8354FF 0%, #B794FF 100%);
-  border-radius: 2px 2px 0 0;
+  width: 32px;
+  height: 4px;
+  background: linear-gradient(90deg, #8354FF 0%, #E91E63 100%);
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 0 12px rgba(131, 84, 255, 0.6);
 }
 
 .tab-btn :deep(svg) {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   fill: #B8A9D9;
-  transition: fill 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .tab-btn.active :deep(svg) {
-  fill: #8354FF;
+  fill: #FFF;
+  transform: scale(1.1);
 }
 
 .tab-btn:hover :deep(svg) {
-  fill: #9D7BFF;
+  fill: #E0D5FF;
+  transform: scale(1.05);
 }
 </style>

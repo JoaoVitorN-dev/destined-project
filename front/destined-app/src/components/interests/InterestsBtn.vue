@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
 const props = defineProps<{
   icon: string;
   interest: string;
+  isSelected?: boolean;
 }>();
-
-const isClicked = ref(false);
-const toggleClick = () => (isClicked.value = !isClicked.value);
 </script>
 
 <template>
-  <div class="btn-container" :class="{ clicked: isClicked }" @click="toggleClick">
+  <div class="btn-container" :class="{ clicked: props.isSelected }">
     <component :is="props.icon" class="icon" />
     <h2 class="btn-title">{{ interest }}</h2>
   </div>
